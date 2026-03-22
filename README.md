@@ -10,6 +10,7 @@
 2. ```yarn install```
 * @nestjs/config
 * @nestjs/typeorm typeorm pg
+* class-validator class-transformer
 
 3. clonar el archivo ```.env.template``` y renombrarlo a ```.env```
 
