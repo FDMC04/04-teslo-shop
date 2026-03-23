@@ -37,6 +37,12 @@ export class Product {
   sizes: string[];
   @Column('text')
   gender: string;
+  @Column('text', {
+    array: true,
+    default: [],
+  })
+  tags: string[];
+
   @BeforeInsert()
   checkSlukInsert() {
     if (!this.slug) {
