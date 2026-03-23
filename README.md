@@ -11,6 +11,7 @@
 * @nestjs/config
 * @nestjs/typeorm typeorm pg
 * class-validator class-transformer
+* -D @types/uuid
 
 3. clonar el archivo ```.env.template``` y renombrarlo a ```.env```
 
