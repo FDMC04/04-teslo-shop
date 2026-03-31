@@ -23,6 +23,7 @@ export class AuthController {
     return {
       oK: true,
       message: 'Hola mundo',
+      user: 'Francisco',
     };
   }
 }
