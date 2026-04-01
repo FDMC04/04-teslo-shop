@@ -13,52 +13,87 @@ import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'products' })
 export class Product {
-  @ApiProperty()
+  @ApiProperty({
+    example: '01ac6e05-b522-45e0-89bf-f80644fcf0bf',
+    description: 'Product ID',
+    uniqueItems: true,
+  })
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @ApiProperty()
+  @ApiProperty({
+    example: 'Kids Racing Stripe Tee',
+    description: 'Product Title',
+    uniqueItems: true,
+  })
   @Column('text', {
     unique: true,
   })
   title: string;
-  @ApiProperty()
+  @ApiProperty({
+    example: 30,
+    description: 'Product Price',
+  })
   @Column('float', {
     default: 0,
   })
   price: number;
-  @ApiProperty()
+  @ApiProperty({
+    example:
+      'The refreshed Kids Racing Stripe Tee is made from 100% Peruvian cotton.',
+    description: 'Product Description',
+    default: null,
+  })
   @Column({
     type: 'text',
     nullable: true,
   })
   description: string;
-  @ApiProperty()
-  @ApiProperty()
+  @ApiProperty({
+    example: 'kids_racing_stripe_tee',
+    description: 'Product SLUG - for SEO',
+    uniqueItems: true,
+  })
   @Column('text', {
     unique: true,
   })
   slug: string;
-  @ApiProperty()
+  @ApiProperty({
+    example: 10,
+    description: 'Product Stock',
+    default: 0,
+  })
   @Column('int', {
     default: 0,
   })
   stock: number;
-  @ApiProperty()
+  @ApiProperty({
+    example: ['M', 'XL', 'XXL'],
+    description: 'Product Sizes',
+  })
   @Column('text', {
     array: true,
   })
   sizes: string[];
-  @ApiProperty()
+  @ApiProperty({
+    example: ['men', 'women', 'kid'],
+    description: 'Product Gender',
+  })
   @Column('text')
   gender: string;
-  @ApiProperty()
+  @ApiProperty({
+    example: ['shirt'],
+    description: 'Product Tags',
+  })
   @Column('text', {
     array: true,
     default: [],
   })
   tags: string[];
   // Images
-  @ApiProperty()
+  @ApiProperty({
+    example: '1740176-00-A_0_2000.jpg',
+    description: 'Product Image',
+  })
   @OneToMany(() => ProductImage, (productImage) => productImage.product, {
     cascade: true,
     eager: true,
