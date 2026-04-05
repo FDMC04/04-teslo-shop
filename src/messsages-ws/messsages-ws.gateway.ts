@@ -20,6 +20,9 @@ export class MesssagesWsGateway
   handleConnection(client: Socket) {
     // console.log('Cliente conectado:', client.id);
     this.messsagesWsService.registerClient(client);
+    // client.join('ventas');
+    // client.join(client.id);
+    // this.wss.to('ventas').emit('message');
     this.wss.emit(
       'clients-updated',
       this.messsagesWsService.getConnectedClients(),
@@ -37,6 +40,20 @@ export class MesssagesWsGateway
   // message-from-client
   @SubscribeMessage('message-from-client')
   handleMessageFromClient(client: Socket, payload: NewMessageDto) {
-    console.log(client.id, payload);
+    // ! Emite unicamente al cliente
+    // client.emit('message-from-server', {
+    //   fullName: 'Soy yo',
+    //   message: payload.message || 'no-message',
+    // });
+    // ! Emitir a todos menos al cliente inicial
+    // client.broadcast.emit('message-from-server', {
+    //   fullName: 'Soy yo',
+    //   message: payload.message || 'no-message',
+    // });
+    // ! Emitir a todos
+    this.wss.emit('message-from-server', {
+      fullName: 'Soy yo',
+      message: payload.message || 'no-message',
+    });
   }
 }
