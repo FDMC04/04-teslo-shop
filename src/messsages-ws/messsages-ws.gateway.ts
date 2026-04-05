@@ -22,18 +22,18 @@ export class MesssagesWsGateway
     private readonly jwtService: JwtService,
   ) {}
 
-  handleConnection(client: Socket) {
+  async handleConnection(client: Socket) {
     const token = client.handshake.headers.authentication as string;
     let payload: JwtPayload;
     try {
       payload = this.jwtService.verify(token);
+      await this.messsagesWsService.registerClient(client, payload.id);
     } catch (error) {
       client.disconnect();
       return;
     }
-    console.log({ payload });
+    // console.log({ payload });
     // console.log('Cliente conectado:', client.id);
-    this.messsagesWsService.registerClient(client);
     // client.join('ventas');
     // client.join(client.id);
     // this.wss.to('ventas').emit('message');
@@ -66,7 +66,7 @@ export class MesssagesWsGateway
     // });
     // ! Emitir a todos
     this.wss.emit('message-from-server', {
-      fullName: 'Soy yo',
+      fullName: this.messsagesWsService.getUserFullName(client.id),
       message: payload.message || 'no-message',
     });
   }
