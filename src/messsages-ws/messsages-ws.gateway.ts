@@ -18,6 +18,8 @@ export class MesssagesWsGateway
   constructor(private readonly messsagesWsService: MesssagesWsService) {}
 
   handleConnection(client: Socket) {
+    const token = client.handshake.headers.authentication as string;
+    console.log({ token });
     // console.log('Cliente conectado:', client.id);
     this.messsagesWsService.registerClient(client);
     // client.join('ventas');
