@@ -8,6 +8,8 @@ import {
 import { MesssagesWsService } from './messsages-ws.service';
 import { Server, Socket } from 'socket.io';
 import { NewMessageDto } from './dtos/new-message.dto';
+import { JwtService } from '@nestjs/jwt';
+import { JwtPayload } from 'src/auth/interfaces';
 
 @WebSocketGateway({ cors: true })
 export class MesssagesWsGateway
@@ -15,11 +17,21 @@ export class MesssagesWsGateway
 {
   @WebSocketServer() wss: Server;
 
-  constructor(private readonly messsagesWsService: MesssagesWsService) {}
+  constructor(
+    private readonly messsagesWsService: MesssagesWsService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   handleConnection(client: Socket) {
     const token = client.handshake.headers.authentication as string;
-    console.log({ token });
+    let payload: JwtPayload;
+    try {
+      payload = this.jwtService.verify(token);
+    } catch (error) {
+      client.disconnect();
+      return;
+    }
+    console.log({ payload });
     // console.log('Cliente conectado:', client.id);
     this.messsagesWsService.registerClient(client);
     // client.join('ventas');
